@@ -8,6 +8,11 @@ from
 HumanResources.Employee
 order by JobTitle asc
 
+''' From the following table Person.Person
+write a query in SQL to retrieve all rows and columns from the 
+employee table using table aliasing in the Adventureworks database. Sort the output in 
+ascending order on lastname.''' 
+  
 select 
 FirstName, LastName,BusinessEntityID as Employee_id
 from 
