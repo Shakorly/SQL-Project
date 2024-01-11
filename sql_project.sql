@@ -1,3 +1,96 @@
+--''' find the persons whose last 
+--name starts with letter 'L'. Return BusinessEntityID, FirstName, LastName 
+--'''
+
+select 
+BusinessEntityID,  LastName, FirstName
+from
+Person.Person
+where LastName like '%L'
+order by LastName, FirstName
+
+--'''  find the sum of subtotal column. 
+--Group the sum on distinct salespersonid and customerid. Rolls up the results into 
+--subtotal and running total. Return salespersonid, customerid and sum of subtotal 
+--column i.e. sum_subtotal. '''
+
+select
+CustomerID, SalesPersonID, sum(subtotal) as Sum_subtotal
+from
+Sales.SalesOrderHeader
+group by SalesPersonID, CustomerID
+
+--'''  find the sum of the quantity of 
+--all combination of group of distinct locationid and shelf column. Return 
+--locationid, shelf and sum of quantity as TotalQuantity.'''
+
+select 
+locationid, shelf, sum(quantity) as TotalQuantity
+from
+Production.ProductInventory
+group by LocationID, Shelf
+
+--'''  find the sum of the quantity with 
+--subtotal for each locationid. Group the results for all combination of distinct 
+--locationid and shelf column. Rolls up the results into subtotal and running total. 
+--Return locationid, shelf and sum of quantity as TotalQuantity '''
+
+select locationid, shelf, sum(quantity)  as TotalQuantity
+from
+Production.ProductInventory
+group by LocationID, Shelf
+
+-- find the total quantity for each 
+--locationid and calculate the grand-total for all locations. Return locationid and 
+--total quantity. Group the results on locationid.
+
+select locationid, sum(quantity), sum(LocationID)
+from
+Production.ProductInventory
+group by LocationID
+
+---- retrieve the total sales for each 
+----year. Filter the result set for those orders where order year is on or before 2016. 
+----Return the year part of orderdate and total due amount. Sort the result in ascending 
+----order on year part of order date.
+
+select
+YEAR(OrderDate) as OrderDate, (TotalDue)
+from
+Sales.SalesOrderHeader
+group by YEAR(OrderDate), TotalDue
+having YEAR(OrderDate) <= 2016
+order by YEAR(OrderDate) asc
+
+--  find the contacts who are 
+--designated as a manager in various departments. Returns ContactTypeID, name. 
+--Sort the result set in descending order.
+
+select
+ContactTypeID, Name
+from
+Person.ContactType
+where name like '%manager%'
+
+select 
+* 
+from
+HumanResources.Employee
+where JobTitle like '%Purchasing Manager'
+
+-- make a list of contacts who are 
+--designated as 'Purchasing Manager'. Return BusinessEntityID, LastName, and 
+--FirstName columns. Sort the result set in ascending order of LastName, and 
+--FirstName.
+
+select 
+p.BusinessEntityID , LastName, FirstName
+from
+Person.Person as p join HumanResources.Employee as e on p.BusinessEntityID = e.BusinessEntityID
+where JobTitle like '%Purchasing Manager'
+
+
+
 ''' From the following table write a query in SQL to retrieve all rows and columns from the 
 employee table in the Adventureworks database. Sort the result set in ascending order on 
 jobtitle.
